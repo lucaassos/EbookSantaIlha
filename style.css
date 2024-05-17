@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    background-color: #f0f0f0;
+    user-select: none; 
+}
+
+#pdf-container {
+    width: 100%;
+    max-width: 1200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto 20px; 
+}
+
+
+@media (max-width: 1200px) {
+    #pdf-container {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    #pdf-container {
+        width: 100%;
+        border: none;
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    #pdf-container {
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+}

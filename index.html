@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook Santa Ilha</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.1.81/pdf.min.js"></script>
+</head>
+<body>
+    <div id="pdf-container"></div>
+
+    <script>
+        
+        var url = 'pdf/Ebook Versao Final.pdf';
+
+       
+        var loadingTask = pdfjsLib.getDocument(url);
+        loadingTask.promise.then(function(pdf) {
+            // Iterar sobre cada página e renderizá-las
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                pdf.getPage(pageNumber).then(function(page) {
+                    var scale = 1.5;
+                    var viewport = page.getViewport({scale: scale});
+
+                    // Preparar canvas usando dimensões da página do PDF
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    // Renderizar a página no canvas
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+
+                    // Adicionar o canvas ao contêiner
+                    document.getElementById('pdf-container').appendChild(canvas);
+                    
+                    // Atualizar proporções do canvas em telas menores
+                    function updateCanvasSize() {
+                        var containerWidth = document.getElementById('pdf-container').offsetWidth;
+                        canvas.style.width = containerWidth + 'px';
+                        canvas.style.height = 'auto';
+                    }
+                    window.addEventListener('resize', updateCanvasSize);
+                    updateCanvasSize(); // Chamar a função uma vez para ajustar o tamanho inicial
+                });
+            }
+        });
+
+        // Desativar menu de contexto (clique direito)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>
